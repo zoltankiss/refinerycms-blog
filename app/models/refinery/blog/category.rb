@@ -10,6 +10,9 @@ module Refinery
       has_many :categorizations, :dependent => :destroy, :foreign_key => :blog_category_id
       has_many :posts, :through => :categorizations, :source => :blog_post
 
+      has_many :child_categories, foreign_key: :parent_id
+      belongs_to :parent, class_name: 'Refinery::Blog::Category'
+
       validates :title, :presence => true, :uniqueness => true
 
       def self.translated
@@ -18,6 +21,10 @@ module Refinery
 
       def post_count
         posts.live.with_globalize.count
+      end
+
+      def children
+        self.class.where(parent_id: self.id)
       end
 
       # how many items to show per page

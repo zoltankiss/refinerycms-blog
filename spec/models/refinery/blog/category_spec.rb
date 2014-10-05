@@ -6,6 +6,30 @@ module Refinery
       let(:category) { FactoryGirl.create(:blog_category) }
       let(:refinery_user) { FactoryGirl.create(:refinery_user) }
 
+      context 'parent and children' do
+        before(:all) do
+          @parent_a = FactoryGirl.create(:blog_category)
+          @child_of_a = FactoryGirl.create(:blog_category)
+          @child_of_a2 = FactoryGirl.create(:blog_category)
+          @child_of_a.parent = @parent_a
+          @child_of_a.save!
+          @child_of_a2.parent = @parent_a
+          @child_of_a2.save!
+        end
+
+        describe '#parent' do
+          it 'finds parents of single-parent child' do
+            expect(@child_of_a.parent).to eq(@parent_a)
+          end
+        end
+
+        describe '#children' do
+          it 'finds children of multi-child parent' do
+            expect(@parent_a.children.to_set).to eq([@child_of_a, @child_of_a2].to_set)
+          end
+        end
+      end
+
       describe "validations" do
         it "requires title" do
           FactoryGirl.build(:blog_category, :title => "").should_not be_valid
