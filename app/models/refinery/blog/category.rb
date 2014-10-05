@@ -20,32 +20,6 @@ module Refinery
         posts.live.with_globalize.count
       end
 
-      def define_parent(parent)
-        CategoryLink.find_or_create_by!(parent_id: parent.id, child_id: self.id)
-      end
-
-      def undefine_parent(parent)
-        CategoryLink.where(parent_id: parent.id, child_id: self.id).first.try :destroy
-      end
-
-      def parents
-        links = CategoryLink.where(child_id: self.id).to_a
-        if links.blank?
-          links
-        else
-          links.map { |link| link.parent }
-        end
-      end
-
-      def children
-        links = CategoryLink.where(parent_id: self.id).to_a
-        if links.blank?
-          links
-        else
-          links.map { |link| link.child }
-        end
-      end
-
       # how many items to show per page
       self.per_page = Refinery::Blog.posts_per_page
 

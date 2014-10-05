@@ -6,43 +6,6 @@ module Refinery
       let(:category) { FactoryGirl.create(:blog_category) }
       let(:refinery_user) { FactoryGirl.create(:refinery_user) }
 
-      context 'parent and children' do
-        before(:all) do
-          @parent_a = FactoryGirl.create(:blog_category)
-          @parent_b = FactoryGirl.create(:blog_category)
-          @child_of_a = FactoryGirl.create(:blog_category)
-          @child_of_b = FactoryGirl.create(:blog_category)
-          @child_of_a.define_parent(@parent_a)
-          @child_of_b.define_parent(@parent_b)
-
-          @child_of_b.define_parent(@parent_a)
-          @child_of_b.undefine_parent(@parent_a)
-
-          @child_of_a_and_b = FactoryGirl.create(:blog_category)
-          @child_of_a_and_b.define_parent(@parent_a)
-          @child_of_a_and_b.define_parent(@parent_b)
-
-          @grand_child_of_a = FactoryGirl.create(:blog_category)
-          @grand_child_of_a.define_parent(@child_of_a)
-        end
-
-        describe '#parents' do
-          it 'finds parents multi-parent child' do
-            expect(@child_of_a_and_b.parents.to_set).to eq([@parent_a, @parent_b].to_set)
-          end
-
-          it 'finds parents of single-parent child' do
-            expect(@child_of_a.parents.to_set).to eq([@parent_a].to_set)
-          end
-        end
-
-        describe '#children' do
-          it 'finds children of multi-child parent' do
-            expect(@parent_a.children.to_set).to eq([@child_of_a, @child_of_a_and_b].to_set)
-          end
-        end
-      end
-
       describe "validations" do
         it "requires title" do
           FactoryGirl.build(:blog_category, :title => "").should_not be_valid
