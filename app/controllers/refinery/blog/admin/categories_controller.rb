@@ -20,6 +20,20 @@ module Refinery
           end
         end
 
+        def update
+          permitted = params.require(:category).permit(:parent_id, :title)
+          if @category.update(permitted)
+            flash.notice = t(
+              'refinery.crudify.updated',
+              :what => 'Category'
+            )
+
+            create_or_update_successful
+          else
+            create_or_update_unsuccessful 'edit'
+          end
+        end
+
         private
 
         def category_params
