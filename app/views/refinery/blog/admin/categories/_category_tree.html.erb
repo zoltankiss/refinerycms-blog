@@ -1,0 +1,11 @@
+<li>
+  <%= f.radio_button 'parent_id', category.id %>
+  <%= category.title %>
+</li>
+<% if category.children.present? %>
+  <ul>
+  <% category.children.each do |child| %>
+    <%= render partial: 'category_tree', locals: { category: child, f: f } %>
+  <% end %>
+  </ul>
+<% end %>

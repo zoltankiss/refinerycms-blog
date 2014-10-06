@@ -1,0 +1,10 @@
+<li>
+  <%= render partial: 'category', locals: { category: category } %>
+</li>
+<% if category.children.present? %>
+  <ul>
+  <% category.children.each do |child| %>
+    <%= render partial: 'category_tree_on_category_home', locals: { category: child } %>
+  <% end %>
+  </ul>
+<% end %>

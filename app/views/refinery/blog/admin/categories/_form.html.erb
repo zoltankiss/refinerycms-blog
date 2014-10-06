@@ -6,6 +6,12 @@
   <%= render '/refinery/admin/locale_picker',
               :current_locale => Globalize.locale %>
 
+  <ul class="tree">
+    <% Refinery::Blog::Category.where(parent_id: nil).each do |category| %>
+      <%= render partial: 'category_tree', locals: { category: category, f: f } %>
+    <% end %>
+  </ul>
+
   <div class='field'>
     <%= f.label :title -%>
     <%= f.text_field :title, :class => 'larger widest' -%>

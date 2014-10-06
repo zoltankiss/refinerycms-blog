@@ -1,0 +1,15 @@
+<li>
+   <%= check_box_tag 'post[category_ids][]', category.id,
+                     post.categories.include?(category),
+                     :id => (id="post_category_ids_#{category.id}") %>
+   <%= label_tag 'post[category_ids][]', category.title,
+                 :class => 'stripped',
+                 :for => id %>
+</li>
+<% if category.children.present? %>
+  <ul>
+  <% category.children.each do |child| %>
+    <%= render partial: 'category_tree_for_post_advanced_options', locals: { category: child, post: post } %>
+  <% end %>
+  </ul>
+<% end %>
