@@ -13,7 +13,7 @@ module Refinery
       has_many :child_categories, foreign_key: :parent_id
       belongs_to :parent, class_name: 'Refinery::Blog::Category'
 
-      validates :title, :presence => true, :uniqueness => true
+      validates :title, :presence => true, uniqueness: { scope: :parent_id }
 
       def self.translated
         with_translations(::Globalize.locale)
