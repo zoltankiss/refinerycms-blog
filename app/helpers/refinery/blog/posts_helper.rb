@@ -1,16 +1,20 @@
 module Refinery
   module Blog
     module PostsHelper
-      def url_with_updated_param(url, param_name, new_value)
-        if url.match /\?/
-          if url.match /#{param_name}/
-            url.gsub(/(#{param_name})=([a-zA-Z0-9]*)/, "#{param_name}=#{new_value}")
+      def url_with_updated_param(url, params)
+        updated_url = url.dup
+        params.each do |param_name, new_value|
+          updated_url = if updated_url.match /\?/
+            if updated_url.match /#{param_name}/
+              updated_url.gsub(/(#{param_name})=([a-zA-Z0-9]*)/, "#{param_name}=#{new_value}")
+            else
+              updated_url + "&#{param_name}=#{new_value}"
+            end
           else
-            url + "&#{param_name}=#{new_value}"
+            updated_url + "?#{param_name}=#{new_value}"
           end
-        else
-          url + "?#{param_name}=#{new_value}"
         end
+        updated_url
       end
 
       def next_or_previous?(post)

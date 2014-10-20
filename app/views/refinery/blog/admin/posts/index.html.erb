@@ -5,8 +5,8 @@
 %>
 <% self.class.send :include, Refinery::Blog::PostsHelper %>
 
-<%= link_to 'tree view', url_with_updated_param(request.fullpath, 'view', 'tree') %>&nbsp;
-<%= link_to 'sequential view', url_with_updated_param(request.fullpath, 'view', 'sequential') %>
+<%= link_to 'tree view', url_with_updated_param(request.fullpath, { 'view' => 'tree' }) %>&nbsp;
+<%= link_to 'sequential view', url_with_updated_param(request.fullpath, { 'view' => 'sequential' }) %>
 
 <div id='records'>
   <% if @posts.any? %>
