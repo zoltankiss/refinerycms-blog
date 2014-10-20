@@ -12,6 +12,8 @@ module Refinery
 
         before_filter :check_category_ids, :only => :update
 
+        before_filter :set_index_vars, only: :index
+
         def uncategorized
           @posts = Refinery::Blog::Post.uncategorized.page(params[:page])
         end
@@ -76,6 +78,10 @@ module Refinery
         end
 
       private
+
+        def set_index_vars
+          @view = params[:view]
+        end
 
         def post_params
           params.require(:post).permit(:title, :body, :custom_teaser, :tag_list,
