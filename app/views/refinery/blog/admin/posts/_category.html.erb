@@ -1,7 +1,10 @@
 
 <li class='clearfix record icons' id="<%= dom_id(category) -%>">
   <div class='clearfix'>
-    <% if category.children.present? %>
+    <%
+      if category.children.present? ||
+         Refinery::Blog::Post.joins(:categories).where('refinery_blog_categories.id' => category.id).present?
+    %>
       <span class="icon toggle <%= 'expanded' %>" title=""></span>
     <% else %>
       <span class="icon"></span>
