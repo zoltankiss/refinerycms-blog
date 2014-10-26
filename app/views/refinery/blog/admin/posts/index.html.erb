@@ -1,12 +1,49 @@
-<%= render '/refinery/blog/admin/submenu' %>
 <%= render 'refinery/admin/search_header', :url => request.path %>
 <%
  # fixme: hack :(
 %>
 <% self.class.send :include, Refinery::Blog::PostsHelper %>
 
+<%
+  links = {
+    'posts' => [
+      ['.posts.manage', refinery.blog_admin_posts_path],
+      ['.posts.uncategorized', refinery.uncategorized_blog_admin_posts_path],
+      ['.posts.new', refinery.new_blog_admin_post_path],
+    ],
+    'comments' => [
+      ['.comments.new', refinery.blog_admin_comments_path],
+      ['.comments.approved', refinery.approved_blog_admin_comments_path],
+      ['.comments.rejected', refinery.rejected_blog_admin_comments_path],
+    ],
+    'categories' => [
+      ['.categories.manage', refinery.blog_admin_categories_path],
+      ['.categories.new', refinery.new_blog_admin_category_path],
+    ],
+    'settings' => [
+      ['.settings.title', refinery.blog_admin_settings_path],
+      ['.settings.comments', refinery.comments_blog_admin_settings_path],
+      ['.settings.moderation', refinery.moderation_blog_admin_settings_path],
+      ['.settings.update_notified', refinery.notification_recipients_blog_admin_settings_path(:dialog => true, :height => 400)],
+      ['.settings.teasers', refinery.teasers_blog_admin_settings_path],
+    ]
+  }
+%>
+
+<div align="right">
+  <%= render "/refinery/admin/search", :url => request.path %>
+</div>
+
 <%= link_to 'tree view', url_with_updated_param(request.fullpath, { 'view' => 'tree' }) %>&nbsp;
-<%= link_to 'sequential view', url_with_updated_param(request.fullpath, { 'view' => 'sequential' }) %>
+<%= link_to 'sequential view', url_with_updated_param(request.fullpath, { 'view' => 'sequential' }) %>&nbsp;|&nbsp;
+
+<% links.each do |category, links| %>
+  <strong><%= category %></strong>:
+  <% links.each do |link, path| %>
+    <%= link_to t(link).gsub('i18n:', ''), path %>&nbsp;
+  <% end %>
+<% end %>
+
 
 <div id='records'>
   <% if @posts.any? %>
