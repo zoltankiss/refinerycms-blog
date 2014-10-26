@@ -7,6 +7,7 @@
               :current_locale => Globalize.locale %>
 
   <div class='field'>
+    <%= raw("<strong>originally written at:</strong> #{@post.created_at}") if @post.persisted? %>
     <%= f.label :title -%>
     <%= f.text_field :title, :class => 'larger widest' -%>
   </div>
