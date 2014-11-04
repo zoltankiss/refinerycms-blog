@@ -35,7 +35,7 @@
 
   <script>
     $(function() {
-      var availableTags = [
+      var availableItems = [
         <% Refinery::Blog::Category.pluck(:title).each do |title| %>
           <%= raw "\"#{title} (category)\"," %>
         <% end %>
@@ -50,7 +50,7 @@
         return split( term ).pop();
       }
 
-      $( "#tags" )
+      $( "#search" )
         // don't navigate away from the field on tab when selecting an item
         .bind( "keydown", function( event ) {
           if ( event.keyCode === $.ui.keyCode.TAB &&
@@ -63,7 +63,7 @@
           source: function( request, response ) {
             // delegate back to autocomplete, but extract the last term
             response( $.ui.autocomplete.filter(
-              availableTags, extractLast( request.term ) ) );
+              availableItems, extractLast( request.term ) ) );
           },
           focus: function() {
             // prevent value inserted on focus
@@ -79,7 +79,7 @@
   </script>
 
   <div class="ui-widget">
-    <input id="tags" size="50">
+    <input id="search" size="50">
   </div>
 </div>
 
