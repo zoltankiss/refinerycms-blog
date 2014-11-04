@@ -18,6 +18,25 @@ module Refinery
           @posts = Refinery::Blog::Post.uncategorized.page(params[:page])
         end
 
+        def ajax_search
+          query = params[:term].match(/(.*) \((.*)\)/)
+          term = query[1]
+          type = query[2]
+
+          @categories = if type == 'category'
+            Refinery::Blog::Category.where(title: term).all
+          elsif type == 'post'
+            # fixme this could be faster
+            Refinery::Blog::Category.where(
+              id: Refinery::Blog::Post.where(title: term).first.categories.map(&:top_most_parent).map(&:id)
+            ).all
+          else
+            nil
+          end
+
+          render partial: "sortable_list"
+        end
+
         def tags
           if ActiveRecord::Base.connection.adapter_name.downcase == 'postgresql'
             op = '~*'

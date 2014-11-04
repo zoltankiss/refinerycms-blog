@@ -29,6 +29,6 @@ $(function() {
 <section id='records' class='tree'>
   <ul id='sortable_list'>
   <% self.class.send :include, Refinery::Admin::PagesHelper %>
-    <%= render :partial => 'category', :collection => Refinery::Blog::Category.all.to_a %>
+    <%= render :partial => 'category', :collection => (@categories || Refinery::Blog::Category.all.to_a) %>
   </ul>
 </section>

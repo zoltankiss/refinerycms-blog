@@ -27,6 +27,14 @@ module Refinery
         self.class.where(parent_id: self.id)
       end
 
+      def top_most_parent
+        if self.parent_id.nil?
+          self
+        else
+          self.parent.top_most_parent
+        end
+      end
+
       # how many items to show per page
       self.per_page = Refinery::Blog.posts_per_page
 

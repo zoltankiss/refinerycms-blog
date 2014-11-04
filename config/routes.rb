@@ -10,6 +10,9 @@ Refinery::Core::Engine.routes.draw do
     get 'tagged/:tag_id(/:tag_name)' => 'posts#tagged', :as => 'tagged_posts'
   end
 
+  # todo: fix this... lol
+  get 'refinery/blog/ajax_search' => 'blog/admin/posts#ajax_search', as: 'ajax_search'
+
   namespace :blog, :path => '' do
     namespace :admin, :path => Refinery::Core.backend_route do
       scope :path => Refinery::Blog.page_url do
